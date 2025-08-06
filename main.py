@@ -21,10 +21,13 @@ webhook_url = os.getenv("DISCORD_WEBHOOK_URL")
 driver.get("https://www.forexfactory.com/calendar")
 
 try:
-    # Wait up to 15 seconds for the table to appear
-    WebDriverWait(driver, 15).until(
-        EC.presence_of_element_located((By.CLASS_NAME, "calendar__table"))
+    # Wait up to 30s until at least one row exists in the calendar table
+    WebDriverWait(driver, 30).until(
+        EC.presence_of_element_located((By.CSS_SELECTOR, "table.calendar__table tbody tr"))
     )
+
+    # Extra safety buffer
+    time.sleep(5)
     html = driver.page_source
 finally:
     driver.quit()
@@ -63,9 +66,6 @@ for idx, body in enumerate(table.find_all('tbody')):
         break
 
 body = table.find_all('tbody')[idx_body]
-print(body.prettify())
-
-
 
 # for idx, row in enumerate(table.find_all('tr')):
 #     cls = row.get('class')
