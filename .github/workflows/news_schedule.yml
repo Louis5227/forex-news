@@ -1,0 +1,27 @@
+name: Send Forex News to Discord
+
+on:
+  schedule:
+    - cron: '0 2 * * 1-5'  # 10 AM Singapore time (UTC+8)
+  workflow_dispatch:
+
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install requests beautifulsoup4 pytz
+
+      - name: Run the Python script
+        run: python main.py
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
