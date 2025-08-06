@@ -43,8 +43,7 @@ year_str = today_sg.strftime("%Y")
 print(today_str, year_str)
 print(table.prettify())
 
-idx_0 = None
-idx_1 = None
+idx_body = None
 
 impact_dict = {
     'red': '🔴',
@@ -53,23 +52,36 @@ impact_dict = {
     'gra': '⚪'
 }
 
-for idx, row in enumerate(table.find_all('tr')):
-    cls = row.get('class')
-    if 'calendar__row--day-breaker' in cls:
-        td = row.find("td")  # or from your list of td[0]
-        weekday = td.contents[0].strip()
-        span_text = td.find("span").get_text(strip=True)
-        if span_text == today_str:
-            idx_0 = idx
-            continue
-        if idx_0:
-            idx_1 = idx
-            break
+for idx, body in enumerate(table.find_all('tbody')):
+    row = body.find("tr", class_="calendar__row--day-breaker")
+    td = row.find("td")  # or from your list of td[0]
+    weekday = td.contents[0].strip()
+    span_text = td.find("span").get_text(strip=True)
+    if span_text == today_str:
+        idx_body = idx
+        break
+
+body = table.find_all('tbody')[idx_body]
+
+
+
+# for idx, row in enumerate(table.find_all('tr')):
+#     cls = row.get('class')
+#     if 'calendar__row--day-breaker' in cls:
+#         td = row.find("td")  # or from your list of td[0]
+#         weekday = td.contents[0].strip()
+#         span_text = td.find("span").get_text(strip=True)
+#         if span_text == today_str:
+#             idx_0 = idx
+#             continue
+#         if idx_0:
+#             idx_1 = idx
+#             break
 
 texts.append(f"__**News for {today_str} {year_str}**__\n")
 texts.append("\n")
 
-for row in table.find_all('tr')[idx_0+1:idx_1]:
+for row in body.find_all('tr'):
     if 'calendar__row--no-event' in row.get('class'):
         texts.append("NO NEWS")
         break
