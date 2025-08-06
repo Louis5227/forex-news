@@ -20,7 +20,10 @@ jobs:
 
       - name: Install Chromium
         uses: browser-actions/setup-chrome@v2
-        run: chrome --version
+
+      - name: Check Chrome version
+        run: |
+          chrome --version
 
       - name: Set up Python
         uses: actions/setup-python@v5

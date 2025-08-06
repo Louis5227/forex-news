@@ -18,6 +18,8 @@ jobs:
 
       - name: Install Chromium
         uses: browser-actions/setup-chrome@v2
+
+      - name: Check Chrome version
         run: |
           chrome --version
 
