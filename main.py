@@ -40,6 +40,8 @@ today_sg = datetime.now(sg_tz)
 today_str = today_sg.strftime("%b %-d")
 year_str = today_sg.strftime("%Y")
 
+print(today_str, year_str)
+
 idx_0 = None
 idx_1 = None
 
@@ -112,13 +114,13 @@ for row in table.find_all('tr')[idx_0+1:idx_1]:
 
 big_string = "".join(texts[:2]) + "```\n" + "".join(texts[2:]) + "\n```"
 
-payload = {
-    "content": big_string
-}
+# payload = {
+#     "content": big_string
+# }
 
-response = requests.post(webhook_url, json=payload)
+# response = requests.post(webhook_url, json=payload)
 
-if response.status_code == 204:
-    print("✅ Message sent to Discord")
-else:
-    print(f"❌ Error: {response.status_code} - {response.text}")
+# if response.status_code == 204:
+#     print("✅ Message sent to Discord")
+# else:
+#     print(f"❌ Error: {response.status_code} - {response.text}")
