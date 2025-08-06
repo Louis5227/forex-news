@@ -1,7 +1,7 @@
-name: Manual Test - Discord News
+name: Manual Test - Discord Forex News
 
 on:
-  workflow_dispatch:  # Allows manual trigger only
+  workflow_dispatch:  # Allows manual trigger
 
 jobs:
   run-script:
@@ -16,10 +16,16 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install dependencies
-        run: pip install requests beautifulsoup4 pytz
+      - name: Install Python dependencies
+        run: |
+          pip install requests beautifulsoup4 pytz selenium
+          sudo apt-get update
+          sudo apt-get install -y chromium-browser
 
-      - name: Run Python script
-        run: python main.py
+      - name: Run script with Selenium
+        run: |
+          export PATH=$PATH:/usr/bin/chromium-browser
+          export CHROME_BIN=/usr/bin/chromium-browser
+          python main.py
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}

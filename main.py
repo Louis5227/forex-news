@@ -1,23 +1,35 @@
-import os
 from datetime import datetime
 import pytz
+import os
+import time
 import requests
 from bs4 import BeautifulSoup
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
-webhook_url = os.environ["DISCORD_WEBHOOK_URL"]
-url = 'https://www.forexfactory.com/calendar'
+# Setup headless Chrome
+chrome_options = Options()
+chrome_options.add_argument("--headless")
+chrome_options.add_argument("--no-sandbox")
+chrome_options.add_argument("--disable-dev-shm-usage")
 
-headers = {
-    "User-Agent": (
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-        "AppleWebKit/537.36 (KHTML, like Gecko) "
-        "Chrome/115.0.0.0 Safari/537.36"
+driver = webdriver.Chrome(options=chrome_options)
+
+driver.get("https://www.forexfactory.com/calendar")
+
+try:
+    # Wait up to 15 seconds for the table to appear
+    WebDriverWait(driver, 15).until(
+        EC.presence_of_element_located((By.CLASS_NAME, "calendar__table"))
     )
-}
+    html = driver.page_source
+finally:
+    driver.quit()
 
-response = requests.get(url, headers=headers)
-soup = BeautifulSoup(response.text, 'html.parser')
-
+soup = BeautifulSoup(html, 'html.parser')
 table = soup.find("table", class_="calendar__table")
 
 texts = []
