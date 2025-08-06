@@ -1,32 +1,28 @@
-name: Send Forex News (Headless)
+name: Scheduled Forex News to Discord (Firefox)
 
 on:
-  workflow_dispatch:
+  schedule:
+    - cron: '0 2 * * 1-5'  # 10:00 AM SGT is 2:00 AM UTC, Mon–Fri
+  workflow_dispatch:       # Optional: allows manual run too
 
 jobs:
-  run:
+  run-script:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Install Python & dependencies
+      - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
-      - name: Install packages
+      - name: Install Python dependencies
         run: |
           pip install requests beautifulsoup4 pytz selenium
-          sudo apt-get update
-          sudo apt-get install -y chromium-browser
 
-      - name: Run script
+      - name: Run script with Firefox (GeckoDriver)
+        run: python main.py
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
-        run: |
-          echo "Setting up CHROME path"
-          export PATH=$PATH:/usr/bin/chromium-browser
-          export CHROME_BIN=/usr/bin/chromium-browser
-          python main.py
