@@ -17,9 +17,8 @@ jobs:
           date  # show current system time
 
       - name: Install Chromium
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y chromium-browser
+        uses: browser-actions/setup-chrome@v2
+        run: chrome --version
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -30,7 +29,7 @@ jobs:
         run: |
           pip install requests beautifulsoup4 pytz selenium
 
-      - name: Run script with Firefox
+      - name: Run script with Chrome
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: |
