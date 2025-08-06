@@ -5,16 +5,29 @@ import time
 import requests
 from bs4 import BeautifulSoup
 from selenium import webdriver
-from selenium.webdriver.firefox.options import Options
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 # Setup headless Chrome
-firefox_options = Options()
-firefox_options.add_argument("--headless")
+# firefox_options = Options()
+# firefox_options.add_argument("--headless")
 
-driver = webdriver.Firefox(options=firefox_options)
+# driver = webdriver.Firefox(options=firefox_options)
+
+chrome_options = Options()
+chrome_options.add_argument("--headless")
+chrome_options.add_argument("--no-sandbox")
+chrome_options.add_argument("--disable-dev-shm-usage")
+
+driver = webdriver.Chrome(options=chrome_options)
+
+# Timezone emulation: Set browser timezone to Asia/Singapore
+driver.execute_cdp_cmd(
+    "Emulation.setTimezoneOverride",
+    {"timezoneId": "Asia/Singapore"}
+)
 
 webhook_url = os.getenv("DISCORD_WEBHOOK_URL")
 
