@@ -22,25 +22,35 @@ chrome_options.add_argument("--no-sandbox")
 chrome_options.add_argument("--disable-dev-shm-usage")
 
 driver = webdriver.Chrome(options=chrome_options)
-
-# Timezone emulation: Set browser timezone to Asia/Singapore
-driver.execute_cdp_cmd(
-    "Emulation.setTimezoneOverride",
-    {"timezoneId": "Asia/Singapore"}
-)
-
-webhook_url = os.getenv("DISCORD_WEBHOOK_URL")
-
+driver.execute_cdp_cmd("Emulation.setTimezoneOverride", {"timezoneId": "Asia/Singapore"})
 driver.get("https://www.forexfactory.com/calendar")
 
+webhook_url = os.getenv("DISCORD_WEBHOOK_URL")
+# try:
+#     # Wait up to 15 seconds for the table to appear
+#     WebDriverWait(driver, 15).until(
+#         EC.presence_of_element_located((By.CLASS_NAME, "calendar__table"))
+#     )
+#     html = driver.page_source
+# finally:
+#     driver.quit()
+
 try:
-    # Wait up to 15 seconds for the table to appear
-    WebDriverWait(driver, 15).until(
-        EC.presence_of_element_located((By.CLASS_NAME, "calendar__table"))
+    # Wait for at least one calendar row to appear
+    WebDriverWait(driver, 30).until(
+        EC.presence_of_element_located((By.CSS_SELECTOR, "table.calendar__table tbody tr"))
     )
-    html = driver.page_source
-finally:
+    time.sleep(5)  # extra buffer to let JS hydrate the table
+    print("✅ Table loaded successfully.")
+except Exception as e:
+    print("❌ Timeout while waiting for calendar data:", e)
+    with open("page_dump.html", "w", encoding="utf-8") as f:
+        f.write(driver.page_source)
     driver.quit()
+    raise
+
+html = driver.page_source
+driver.quit()
 
 soup = BeautifulSoup(html, 'html.parser')
 table = soup.find("table", class_="calendar__table")
