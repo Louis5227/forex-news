@@ -19,9 +19,8 @@ jobs:
           date  # show current system time
 
       - name: Install Chromium
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y chromium-browser
+        uses: browser-actions/setup-chrome@v2
+        run: chrome --version
 
       - name: Set up Python
         uses: actions/setup-python@v5
