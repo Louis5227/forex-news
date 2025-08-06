@@ -37,7 +37,8 @@ texts = []
 sg_tz = pytz.timezone("Asia/Singapore")
 today_sg = datetime.now(sg_tz)
 
-today_str = today_sg.strftime("%b %-d")
+# today_str = today_sg.strftime("%b %-d")
+today_str = 'Aug 3'
 year_str = today_sg.strftime("%Y")
 
 # print(today_str, year_str)
