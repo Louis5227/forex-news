@@ -59,12 +59,13 @@ for idx, body in enumerate(table.find_all('tbody')):
     td = row.find("td")  # or from your list of td[0]
     weekday = td.contents[0].strip()
     span_text = td.find("span").get_text(strip=True)
-    print(span_text)
-    # if span_text == today_str:
-    #     idx_body = idx
-    #     break
+    if span_text == today_str:
+        idx_body = idx
+        break
 
-# body = table.find_all('tbody')[idx_body]
+body = table.find_all('tbody')[idx_body]
+
+print(body.prettify())
 
 # texts.append(f"__**News for {today_str} {year_str}**__\n")
 # texts.append("\n")
