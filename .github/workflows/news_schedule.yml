@@ -13,6 +13,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Set timezone to Asia/Singapore
+        run: |
+          sudo timedatectl set-timezone Asia/Singapore
+          date  # show current system time
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
