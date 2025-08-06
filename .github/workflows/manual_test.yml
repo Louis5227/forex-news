@@ -20,6 +20,6 @@ jobs:
         run: pip install requests beautifulsoup4 pytz
 
       - name: Run Python script
-        run: python send_discord_news.py
+        run: python main.py
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
