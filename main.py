@@ -114,6 +114,7 @@ for row in table.find_all('tr')[idx_0+1:idx_1]:
     texts.append(f"{impact} {currency} [{t:>7}] {title} [P: {previous if previous else '-'} | F: {forecast if forecast else '-'}]\n")
 
 big_string = "".join(texts[:2]) + "```\n" + "".join(texts[2:]) + "\n```"
+print(big_string)
 
 # payload = {
 #     "content": big_string
