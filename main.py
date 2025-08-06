@@ -40,8 +40,8 @@ today_sg = datetime.now(sg_tz)
 today_str = today_sg.strftime("%b %-d")
 year_str = today_sg.strftime("%Y")
 
-print(today_str, year_str)
-print(table.prettify())
+# print(today_str, year_str)
+# print(table.prettify())
 
 idx_body = None
 
