@@ -27,7 +27,7 @@ try:
     )
 
     # Extra safety buffer
-    time.sleep(5)
+    time.sleep(60)
     html = driver.page_source
 finally:
     driver.quit()
