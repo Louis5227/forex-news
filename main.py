@@ -62,6 +62,7 @@ for idx, body in enumerate(table.find_all('tbody')):
         break
 
 body = table.find_all('tbody')[idx_body]
+print(body.prettify())
 
 
 
