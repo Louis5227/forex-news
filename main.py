@@ -18,6 +18,8 @@ chrome_options.add_argument("--disable-dev-shm-usage")
 
 driver = webdriver.Chrome(options=chrome_options)
 
+webhook_url = os.getenv("DISCORD_WEBHOOK_URL")
+
 driver.get("https://www.forexfactory.com/calendar")
 
 try:
